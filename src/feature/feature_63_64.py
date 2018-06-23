@@ -35,13 +35,11 @@ def feature_63_64(read_log_path, read_id_path, read_feature_path, write_feartue_
     for (id_, dic_) in id_differernt_item_kind_dic.items():
         id_same_item_MAX_count_dic[id_] = max(list(id_same_item_count_dic[id_].values()))
 
-
-
     #读取feature 添加这2列特征
     feature = feature_io.read_feature(read_feature_path)
     #遍历feature 无数据行补 [0] 构造新的list
     data_feature = [[0, 0], ]
-    for i, line in enumerate(feature):
+    for i, line in enumerate(id_list):
         l = []
         if line[0] in id_differernt_item_count_dic:
             l.append(id_differernt_item_count_dic[line[0]])

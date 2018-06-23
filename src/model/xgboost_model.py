@@ -10,7 +10,7 @@ def get_data():
 
     train_agg = pd.read_csv('../../data/corpus/train_agg.csv', header = None, index_col = None).as_matrix()
     train_agg = [t[0].split('\t') for t in train_agg]
-    train_feartue = pd.read_csv('../../data/corpus/train_feature_62.csv', header = None, index_col = None).as_matrix()
+    train_feartue = pd.read_csv('../../data/corpus/train_feature_64.csv', header = None, index_col = None).as_matrix()
     train_feartue = [t[0].split('\t') for t in train_feartue]
 
     user_set = set()
@@ -54,7 +54,7 @@ def build_loadfile():
     submite_x_test_agg = [t[0].split('\t') for t in submite_x_test_agg]
     y_index = [x[-1] for x in submite_x_test_agg[1:]]
     #feature
-    submite_x_test_feature = pd.read_csv('../../data/corpus/test_feature_62.csv', header = None, index_col = None).as_matrix()
+    submite_x_test_feature = pd.read_csv('../../data/for_add_feature/test_feature_64.csv', header = None, index_col = None).as_matrix()
     submite_x_test_feature = [t[0].split('\t') for t in submite_x_test_feature]
     submite_x_test_feature = [x[:] for x in submite_x_test_feature[1:]]
 
@@ -93,6 +93,6 @@ def change_param():
 
 
 if __name__ == '__main__':
-    #build_loadfile()
+    build_loadfile()
     #change_param()
-    get_xgboost_model_score()
+    #get_xgboost_model_score()

@@ -37,7 +37,7 @@ def read_log(path):
 
 def write_feartue(f, path):
     tofile = ['\t'.join(x.astype(str).tolist()) for x in f]
-    pd.DataFrame(tofile).to_csv('../../data/corpus/'+path, header=['feature'], index = False)
+    pd.DataFrame(tofile).to_csv('../../data/for_add_feature/'+path, header=['feature'], index = False)
 
 
 if __name__ == '__main__':
