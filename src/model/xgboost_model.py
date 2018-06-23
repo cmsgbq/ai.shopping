@@ -25,8 +25,8 @@ def get_data():
     y_all = [user_flg_dic[y] for y in [x[-1] for x in train_agg[1:]] ] #根据 训练集X的id，取出对应Y
     #切割训练数据
     train_start = 0 
-    train_end = 80000
-    test_start = 30000
+    train_end = 75000
+    test_start = 75000
     test_end = 80000
     x_train = np.array(x_all[train_start:train_end]).astype(float)
     y_train = np.array(y_all[train_start:train_end]).astype(float)
@@ -38,7 +38,7 @@ def get_data():
 def get_xgboost_model_score():
     x_train, y_train, x_test, y_test = get_data()
     #建立模型 计算模型得分
-    xgbr = xgb.XGBRegressor(max_depth=3, learning_rate=0.15, objective='reg:logistic')
+    xgbr = xgb.XGBRegressor(max_depth=5, learning_rate=0.15, objective='reg:logistic',n_estimators=100)
     xgbr.fit(x_train, y_train)
     xgb_y = xgbr.predict(x_test)
     test_accuracy = roc_auc_score(y_test, xgb_y)
@@ -73,12 +73,13 @@ def change_param():
     x_train, y_train, x_test, y_test = get_data()
     model = XGBClassifier()
     
-    n_estimators = [100, 300, 500, 800]
+    n_estimators = [20, 50, 80, 100, 120,150]
     learning_rate = [0.05,0.1, 0.17, 0.15,0.2,0.25,0.3,0.4,0.8,0.9,1.1]
-    gamma = [0.2, 0.4, 0.5,0.6, 0.8]
+    gamma = [0.6, 0.8,1.0,1.2,1.4]
     max_depth = [1, 2, 3, 4, 5, 6, 7, 8]
     
-    param_grid = dict(learning_rate=learning_rate)
+    param_grid = dict(gamma=gamma)
+    print(param_grid)
     kfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=7)
     grid_search = GridSearchCV(model, param_grid, scoring="roc_auc", n_jobs=-1, cv=kfold)
     grid_result = grid_search.fit(x_train, y_train)
@@ -93,5 +94,5 @@ def change_param():
 
 if __name__ == '__main__':
     #build_loadfile()
-    change_param()
+    #change_param()
     get_xgboost_model_score()
