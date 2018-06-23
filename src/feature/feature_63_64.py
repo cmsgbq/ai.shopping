@@ -33,7 +33,7 @@ def feature_63_64(read_log_path, read_id_path, read_feature_path, write_feartue_
     #提取最大点击次数
     id_same_item_MAX_count_dic = {}
     for (id_, dic_) in id_differernt_item_kind_dic.items():
-        id_same_item_MAX_count_dic[id_] = max(list(id_same_item_count_dic[id_].value))
+        id_same_item_MAX_count_dic[id_] = max(list(id_same_item_count_dic[id_].values()))
 
 
 
