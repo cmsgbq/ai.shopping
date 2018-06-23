@@ -36,8 +36,7 @@ y_test = np.array(y_all[test_start:test_end]).astype(float)
 #建立模型 计算模型得分
 data_train=xgb.DMatrix(x_train,label=y_train)  
 data_test=xgb.DMatrix(x_test,label=y_test)  
-watch_list=[(data_test,'eval'),(data_train,'train')]  
-
+watch_list=[(data_test,'eval'),(data_train,'train')] 
 xgbr = xgb.XGBRegressor(max_depth=3, learning_rate=0.1,silent=False, objective='reg:logistic')
 xgbr.fit(x_train, y_train)
 xgb_y = xgbr.predict(x_test)
