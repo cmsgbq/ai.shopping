@@ -2,3 +2,4 @@ data/
 .spyproject
 src/feature/__pycache__
 .vscode
+src/model/testY2.csv
