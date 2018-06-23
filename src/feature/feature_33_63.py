@@ -6,7 +6,7 @@ import pandas as pd
 import feature_io
 
 
-def feature_add(read_log_path, read_id_path, read_feature_path, write_feartue_path):
+def feature_33_63(read_log_path, read_id_path, read_feature_path, write_feartue_path):
     f = feature_io.read_log(read_log_path)
     id_list = feature_io.read_id(read_id_path)
     #key = id, Value = list[31]
@@ -36,7 +36,7 @@ def feature_add(read_log_path, read_id_path, read_feature_path, write_feartue_pa
     feature_io.write_feartue(feature, write_feartue_path)
     
 if __name__ == '__main__':
-    feature_add('train_log.csv', 'train_id.csv','train_feature.csv', 'train_feature_62.csv')
+    feature_33_63('train_log.csv', 'train_id.csv','train_feature.csv', 'train_feature_62.csv')
 
             
             
