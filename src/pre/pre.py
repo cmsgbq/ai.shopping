@@ -1,8 +1,6 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt  
 import xgboost as xgb
-from sklearn.linear_model import LogisticRegression  
 from sklearn.metrics import roc_auc_score
 
 
@@ -11,7 +9,7 @@ test_agg = pd.read_csv('../../data/corpus/train_agg.csv', header = None, index_c
 #test_log = pd.read_csv('../../data/corpus/train_log.csv', header = None, index_col = None).as_matrix()
 Y_t = pd.read_csv('../../data/corpus/train_flg.csv', header = None, index_col = None).as_matrix()
 
-test_feartue = pd.read_csv('../../data/corpus/train_feature.csv', header = None, index_col = None).as_matrix()
+test_feartue = pd.read_csv('../../data/corpus/train_feature_62.csv', header = None, index_col = None).as_matrix()
 test_feartue = [t[0].split('\t') for t in test_feartue]
 
 test_agg = [t[0].split('\t') for t in test_agg]
