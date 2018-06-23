@@ -3,54 +3,40 @@
 import feature_io
 import numpy as np
 import pandas as pd
+import feature_io
 
 
-
-def feature_add(log_path, save_id_path, save_feature_path):
-    
-    f = feature_io.read_log(log_path)
-    
-    id_times = {}
-    same_opration = set()
-    id_same_opration_time = {}
-    last_id = f[0][0]
+def feature_33_63(read_log_path, read_id_path, read_feature_path, write_feartue_path):
+    f = feature_io.read_log(read_log_path)
+    id_list = feature_io.read_id(read_id_path)
+    #key = id, Value = list[31]
+    date_all_table = {}
+    #保存存在操作日志的id
+    #遍历操作日志 将操作时间按 天/每次+1 放入矩阵中
     for line in f:
-        if last_id != line[0]:
-            same_opration.clear()
-            last_id = line[0]
-        if line[0] not in id_times:
-            id_times[line[0]] = 1
+        if int(line[0]) in date_all_table:
+            date_all_table[int(line[0])][int( line[2].split()[0].split('-')[2])] += 1
         else:
-            id_times[line[0]]+=1
-            
-        if line[1] not in same_opration:
-            same_opration.add(line[1])
-        else:
-            id_same_opration_time[line[0]] = 1
-           
-    id_list = feature_io.read_id(save_id_path)
-    feature1 = [[0,0]]
-    id_list = [x[0] for x in id_list.tolist()]
-    for id in id_list:
-        l = []
-        ll = []
-        if id in id_times:
-            ll.append(id_times[id])
-        else :
-            ll.append(0)
-        if id in id_same_opration_time:
-            ll.append(id_same_opration_time[id])
-        else :
-            ll.append(0)
-        l.append(ll)
-        feature1 = np.concatenate((np.array(feature1), np.array(l)), axis=0)
-    feature_follow = feature1[1:]
+            date_all_table[int(line[0])] = [0]*32
+            date_all_table[int(line[0])][int( line[2].split()[0].split('-')[2])] += 1
     
-
-
-    feature = np.array(feature_io.read_feature(save_feature_path))
-    feature = np.concatenate((feature, feature_follow), axis=1)
-    feature_io.write_feartue(feature, save_feature_path)
+    #读取feature 添加这[1:] 32列特征
+    feature = feature_io.read_feature(read_feature_path)
+    #遍历feature 无数据行补 [0]*32 构造新的list
+    data_feature = [[0]*32]
+    for i, line in enumerate(feature):
+        if int(id_list[i]) in date_all_table:
+            data_feature.append(date_all_table[int(id_list[i])][1:]) #从下标1开始 剪去无用数据（每月第0天）
+        else:
+            data_feature.append([0]*31)
+    data_feature = data_feature[1:] #剪去第一空行
+    
+    #拼接并写入feature
+    feature = np.concatenate((feature, np.array(data_feature)), axis=1)
+    feature_io.write_feartue(feature, write_feartue_path)
     
 if __name__ == '__main__':
-    feature_add('test_log.csv', 'test_id.csv','test_feature.csv')
+    feature_33_63('train_log.csv', 'train_id.csv','train_feature.csv', 'train_feature_62.csv')
+
+            
+            
