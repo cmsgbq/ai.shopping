@@ -6,9 +6,9 @@ Created on Mon Jun 11 18:12:05 2018
 """
 
 # -*- coding: utf-8 -*-
-#from xgboost import plot_importance
-#from xgboost import XGBClassifier
-#import xgboost as xgb
+from xgboost import plot_importance
+from xgboost import XGBClassifier
+import xgboost as xgb
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -142,11 +142,11 @@ def log_EVTLBL_STA(data,feature_list):
 
 
             
-   
+path1 = '../../data/corpus/'
 
-train_agg = pd.read_csv('D:/train_agg.csv',sep='\t',engine='python')
-train_flg = pd.read_csv('D:/train_flg.csv',sep='\t',engine='python')
-train_log = pd.read_csv('D:/train_log.csv',sep='\t',parse_dates = ['OCC_TIM'],engine='python')
+train_agg = pd.read_csv(path1+'train_agg.csv',sep='\t',engine='python')
+train_flg = pd.read_csv(path1+'train_flg.csv',sep='\t',engine='python')
+train_log = pd.read_csv(path1+'train_log.csv',sep='\t',parse_dates = ['OCC_TIM'],engine='python')
     
 print(train_agg)
 
@@ -156,17 +156,19 @@ all_train = pd.merge(train_flg,train_agg,on=['USRID'],how='left')
 EVT_LBL_len,EVT_LBL_set_len = log_EVT_LBL(train_log)
 time = log_OCC_TIM(train_log,recenttime)
 log_type = log_TYPE(train_log)
-#feature_list = feture_imp(train_log,train_flg,25)
-#df_evtblb_sta = log_EVTLBL_STA(train_log,feature_list)
+feature_list = feture_imp(train_log,train_flg,25)
+df_evtblb_sta = log_EVTLBL_STA(train_log,feature_list)
 
 all_train = pd.merge(all_train,EVT_LBL_len,on=['USRID'],how='left')
 all_train = pd.merge(all_train,EVT_LBL_set_len,on=['USRID'],how='left')
 all_train = pd.merge(all_train,time,on=['USRID'],how='left')
 all_train = pd.merge(all_train,log_type,on='USRID',how='left')
-#all_train = pd.merge(all_train,df_evtblb_sta,left_on='USRID',right_index=True,how='left')
+all_train = pd.merge(all_train,df_evtblb_sta,left_on='USRID',right_index=True,how='left')
 all_train.time_gap.fillna(max(all_train.time_gap)+1,inplace=True)
 all_train.fillna(0,inplace=True)
- 
+
+
+
 train_x = all_train.drop(['USRID', 'FLAG','recenttime'], axis=1).values
 train_y = all_train['FLAG'].values
 
@@ -198,9 +200,10 @@ for train_index, test_index in skf.split(train_x, train_y):
 print('validate result:',np.mean(auc_list))
 
 
+'''
 
-test_agg = pd.read_csv('E:/工商银行比比赛/test_agg.csv',sep='\t',engine='python')
-test_log = pd.read_csv('E:/工商银行比比赛/test_log.csv',sep='\t',parse_dates = ['OCC_TIM'],engine='python')
+test_agg = pd.read_csv(path1+'test_agg.csv',sep='\t',engine='python')
+test_log = pd.read_csv(path1+'test_log.csv',sep='\t',parse_dates = ['OCC_TIM'],engine='python')
 
 EVT_LBL_len,EVT_LBL_set_len = log_EVT_LBL(test_log)
 time = log_OCC_TIM(test_log,recenttime)
@@ -224,8 +227,11 @@ train_y = all_train['FLAG'].values
 
 test_x = test_set.drop(['USRID','recenttime'], axis=1).values
 test_x = test_x
+print('start')
+# pd.DataFrame(test_x).to_csv(path1+'tea_feature_test.csv', index=False)
+# pd.DataFrame(train_x).to_csv('../../data/for_add_feature/tea_feature.csv', index=False)
 
 pred_result = xgb_model(train_x,train_y,test_x)
 result_name['RST'] = pred_result
-result_name.to_csv('d:/test_result.csv',index=None,sep='\t')
-'''
+result_name.to_csv('test_result.csv',index=None,sep='\t')
+print('end')
