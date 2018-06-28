@@ -28,6 +28,12 @@ def read_id(path):
     f = np.array(f[:]).astype(str)
     return f
 
+def read_id_int(path):
+    f = pd.read_csv('../../data/corpus/'+path, header = None, index_col = None).as_matrix()
+    f = [x[:] for x in f[1:]]
+    f = np.array(f[:]).astype(int)
+    return f
+
 def read_log(path):
     f = pd.read_csv('../../data/corpus/'+path, header = None, index_col = None).as_matrix()
     f = [t[0].split('\t') for t in f]

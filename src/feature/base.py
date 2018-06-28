@@ -173,7 +173,7 @@ train_x = all_train.drop(['USRID', 'FLAG','recenttime'], axis=1).values
 train_y = all_train['FLAG'].values
 
 
-'''
+
 auc_list = []
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=3)
 for train_index, test_index in skf.split(train_x, train_y):
@@ -200,7 +200,7 @@ for train_index, test_index in skf.split(train_x, train_y):
 print('validate result:',np.mean(auc_list))
 
 
-'''
+
 
 test_agg = pd.read_csv(path1+'test_agg.csv',sep='\t',engine='python')
 test_log = pd.read_csv(path1+'test_log.csv',sep='\t',parse_dates = ['OCC_TIM'],engine='python')

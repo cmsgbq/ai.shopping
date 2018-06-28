@@ -56,6 +56,6 @@ def feature_add(agg_path, log_path, save_id_path, save_feature_path):
     feature_io.write_feartue(feature, save_feature_path)
     
 if __name__ == '__main__':
-    feature_add('test_agg.csv', 'test_log.csv', 'test_id.csv','test_feature.csv')
+    feature_add('train_agg.csv', 'train_log.csv', 'train_id.csv','train_feature_30.csv')
     #ff =  read_feature()
     #write_feartue(ff)
