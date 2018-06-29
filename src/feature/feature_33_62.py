@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import imp
+feature_io=imp.load_source('feature_io','../tool/feature_io.py')
 import feature_io
+
 import numpy as np
 import pandas as pd
-import feature_io
 
 #添加用户日点击次数
 def feature_33_62(read_log_path, read_id_path, read_feature_path, write_feartue_path):

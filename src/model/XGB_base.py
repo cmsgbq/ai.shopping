@@ -22,6 +22,9 @@ from sklearn.model_selection import StratifiedKFold
 OFF_LINE = False
 from sklearn.feature_selection import SelectFromModel
 
+
+import imp
+feature_io=imp.load_source('feature_io','../tool/feature_io.py')
 import feature_io
 
 def xgb_model(train_set_x,train_set_y,test_set_x):

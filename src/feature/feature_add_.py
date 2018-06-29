@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import feature_io
 import numpy as np
 import pandas as pd
+import imp
+feature_io=imp.load_source('feature_io','../tool/feature_io.py')
 import feature_io
 
 
